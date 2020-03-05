@@ -63,7 +63,6 @@ REST_FRAMEWORK = {
     ),
     'DEFAULT_PERMISSION_CLASSES': (
         'rest_framework.permissions.IsAuthenticated',
-        "rest_framework.permissions.IsAdminUser",
     ),
     'TEST_REQUEST_DEFAULT_FORMAT': 'json',
 }
@@ -144,6 +143,3 @@ NOSE_ARGS = [
     '--with-coverage',
     '--cover-package=users',
 ]
-
-MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
