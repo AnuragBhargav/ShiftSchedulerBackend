@@ -5,7 +5,7 @@ from django.utils.translation import ugettext_lazy as _
 
 from rest_framework import serializers
 from rest_framework.authtoken.models import Token
-from .models import UserInfo
+from .models import UserInfo , Shift
 
 
 class UserRegistrationSerializer(serializers.ModelSerializer):
@@ -71,4 +71,10 @@ class UserDetailsSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = UserInfo
-        fields = ("user", "designation", "project", "doj", "gender")
+        fields = "__all__"
+
+class ShiftSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Shift
+        fields = "__all__"

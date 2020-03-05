@@ -1,0 +1,247 @@
+{
+	"id": "b44986ed-944a-7359-8c90-60a64fcd31c8",
+	"name": "MyApp",
+	"description": "",
+	"order": [
+		"99d3ee55-e1da-f8f5-4b5c-52f880a8d422",
+		"040f6a95-5322-d832-e488-b2cb4efba056",
+		"ed0cb5e6-b15c-da4d-0ea9-3c12a5e3729e",
+		"6abfad2a-3c7b-e8e7-32f3-624b75c42fe9",
+		"5628f742-e9df-64e8-037f-a128d826e9e1",
+		"b2c3786e-295b-14d6-25bd-a1edd5d69cb3"
+	],
+	"folders": [],
+	"folders_order": [],
+	"timestamp": 1582953230544,
+	"owner": 0,
+	"public": false,
+	"requests": [
+		{
+			"id": "040f6a95-5322-d832-e488-b2cb4efba056",
+			"headers": "Content-Type: application/json\nAuthorization: Token c14e8fe62ac4073e943775ba9e387c7b83c2c6bb\n",
+			"headerData": [
+				{
+					"key": "Content-Type",
+					"value": "application/json",
+					"description": "",
+					"enabled": true
+				},
+				{
+					"key": "Authorization",
+					"value": "Token c14e8fe62ac4073e943775ba9e387c7b83c2c6bb",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "http://127.0.0.1:8000/api/tokens/current/",
+			"queryParams": [],
+			"pathVariables": {},
+			"pathVariableData": [],
+			"preRequestScript": null,
+			"method": "GET",
+			"collectionId": "b44986ed-944a-7359-8c90-60a64fcd31c8",
+			"data": [],
+			"dataMode": "raw",
+			"name": "get token id ",
+			"description": "",
+			"descriptionFormat": "html",
+			"time": 1582953365855,
+			"version": 2,
+			"responses": [],
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"rawModeData": "{\n\"username\":\"admin\",\n\"password\":\"admin\"\n}"
+		},
+		{
+			"id": "5628f742-e9df-64e8-037f-a128d826e9e1",
+			"headers": "Authorization: Token cf85d0ecbedda128a539a0f1817e05b7ad164e09\nContent-Type: application/json\n",
+			"headerData": [
+				{
+					"key": "Authorization",
+					"value": "Token cf85d0ecbedda128a539a0f1817e05b7ad164e09",
+					"description": "",
+					"enabled": true
+				},
+				{
+					"key": "Content-Type",
+					"value": "application/json",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "http://127.0.0.1:8000/api/users/add_info/",
+			"queryParams": [],
+			"preRequestScript": null,
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "POST",
+			"data": [],
+			"dataMode": "raw",
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1582968786102,
+			"name": "http://127.0.0.1:8000/api/users/add_info/",
+			"description": "add user info \n\nmandtory fieilds",
+			"collectionId": "b44986ed-944a-7359-8c90-60a64fcd31c8",
+			"responses": [],
+			"rawModeData": "{\n\t\"designation\":\"ASE\",\n\t\"project\": \"Project1\",\n\t\"gender\": \"male\"\n}"
+		},
+		{
+			"id": "6abfad2a-3c7b-e8e7-32f3-624b75c42fe9",
+			"headers": "Authorization: Token d19fa551b93f52a5ed79cde6222dd5181fa9c0fa\n",
+			"headerData": [
+				{
+					"key": "Authorization",
+					"value": "Token d19fa551b93f52a5ed79cde6222dd5181fa9c0fa",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "http://127.0.0.1:8000/api/tokens/current",
+			"queryParams": [],
+			"pathVariables": {},
+			"pathVariableData": [],
+			"preRequestScript": null,
+			"method": "DELETE",
+			"collectionId": "b44986ed-944a-7359-8c90-60a64fcd31c8",
+			"data": [
+				{
+					"key": "name",
+					"value": "take your bag",
+					"description": "",
+					"type": "text",
+					"enabled": true
+				}
+			],
+			"dataMode": "params",
+			"name": "delete user",
+			"description": "",
+			"descriptionFormat": "html",
+			"time": 1582954157417,
+			"version": 2,
+			"responses": [],
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {}
+		},
+		{
+			"id": "99d3ee55-e1da-f8f5-4b5c-52f880a8d422",
+			"headers": "Content-Type: application/json\nAuthorization: Token c14e8fe62ac4073e943775ba9e387c7b83c2c6bb\n",
+			"headerData": [
+				{
+					"key": "Content-Type",
+					"value": "application/json",
+					"description": "",
+					"enabled": true
+				},
+				{
+					"key": "Authorization",
+					"value": "Token c14e8fe62ac4073e943775ba9e387c7b83c2c6bb",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "http://127.0.0.1:8000/api/users/login/",
+			"queryParams": [],
+			"preRequestScript": null,
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "POST",
+			"data": [],
+			"dataMode": "raw",
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1582953408021,
+			"name": "http://127.0.0.1:8000/api/users/login/",
+			"description": "",
+			"collectionId": "b44986ed-944a-7359-8c90-60a64fcd31c8",
+			"responses": [],
+			"rawModeData": "{\n\"username\":\"admin\",\n\"password\":\"admin\"\n}"
+		},
+		{
+			"id": "b2c3786e-295b-14d6-25bd-a1edd5d69cb3",
+			"headers": "Authorization: Token cf85d0ecbedda128a539a0f1817e05b7ad164e09\nContent-Type: application/json\n",
+			"headerData": [
+				{
+					"key": "Authorization",
+					"value": "Token cf85d0ecbedda128a539a0f1817e05b7ad164e09",
+					"description": "",
+					"enabled": true
+				},
+				{
+					"key": "Content-Type",
+					"value": "application/json",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "http://127.0.0.1:8000/api/users/add_info/",
+			"queryParams": [],
+			"pathVariables": {},
+			"pathVariableData": [],
+			"preRequestScript": null,
+			"method": "GET",
+			"collectionId": "b44986ed-944a-7359-8c90-60a64fcd31c8",
+			"data": [],
+			"dataMode": "raw",
+			"name": "http://127.0.0.1:8000/api/users/add_info/",
+			"description": "get user info \n\nmandtory fieilds",
+			"descriptionFormat": "html",
+			"time": 1582968767554,
+			"version": 2,
+			"responses": [],
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"rawModeData": "{\n\t\"designation\":\"ASE\",\n\t\"project\": \"Project1\",\n\t\"gender\": \"male\"\n}"
+		},
+		{
+			"id": "ed0cb5e6-b15c-da4d-0ea9-3c12a5e3729e",
+			"headers": "",
+			"headerData": [],
+			"url": "http://127.0.0.1:8000/api/users/",
+			"queryParams": [],
+			"pathVariables": {},
+			"pathVariableData": [],
+			"preRequestScript": null,
+			"method": "POST",
+			"collectionId": "b44986ed-944a-7359-8c90-60a64fcd31c8",
+			"data": [
+				{
+					"key": "username",
+					"value": "vishnu",
+					"description": "",
+					"type": "text",
+					"enabled": true
+				},
+				{
+					"key": "password",
+					"value": "vishnu",
+					"description": "",
+					"type": "text",
+					"enabled": true
+				},
+				{
+					"key": "confirm_password",
+					"value": "vishnu",
+					"description": "",
+					"type": "text",
+					"enabled": true
+				}
+			],
+			"dataMode": "params",
+			"name": "signup",
+			"description": "",
+			"descriptionFormat": "html",
+			"time": 1582953547555,
+			"version": 2,
+			"responses": [],
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {}
+		}
+	]
+}
