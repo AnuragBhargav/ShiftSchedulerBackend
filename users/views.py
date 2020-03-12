@@ -250,7 +250,8 @@ def shifts_info_user(request,project_id,dd,mm,yyyy):
             "MorningShift" :[],
             "AfternoonShift": [],
             "NightShift" :[],
-            "GeneralShift" :[]
+            "GeneralShift" :[],
+            "Leave":[]
         }
         print(a)
         for i in a:
@@ -270,12 +271,19 @@ def shifts_info_user(request,project_id,dd,mm,yyyy):
                         info["NightShift"].append(k.user)
                     if (k.shift == "G"):
                         info["GeneralShift"].append(k.user)
+                    if (k.shift == "L"):
+                        info["Leave"].append(k.user)
 
             except:
                 pass
+            data = {
+                "projectName" : project_id,
+                'date': str(d),
+                "shifts": info
+            }
 
         # data = request.d
-        return Response(data=info,status=status.HTTP_200_OK)
+        return Response(data=data,status=status.HTTP_200_OK)
 
 
 

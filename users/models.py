@@ -19,6 +19,7 @@ CHOICES = (
 
 class UserInfo(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, primary_key=True)
+    full_name = models.CharField(max_length=255, null=True, blank=True, default="NA")
     designation  = models.CharField(max_length=255)
     project = models.CharField(max_length=255, choices=CHOICES, default='bench', blank=True ,null=True)
     doj = models.DateTimeField(_("Date Created"), auto_now_add=True)
@@ -28,6 +29,7 @@ class UserInfo(models.Model):
     total_exp = models.IntegerField(max_length=2, null=True, blank=True, default=None)
     project_exp = models.IntegerField(max_length=2, null=True, blank=True, default=None)
     img = models.ImageField(upload_to='empid', blank=True, null=True, default="/media/empid/image.png")
+
 
     def __str__(self):
         return self.user.username+":"+self.project
