@@ -34,14 +34,30 @@ class UserLoginAPIView(GenericAPIView):
     authentication_classes = ()
     permission_classes = ()
     serializer_class = UserLoginSerializer
+    serializer_class1 = UserDetailsSerializer
 
     def post(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
         if serializer.is_valid():
             user = serializer.user
+            user_details = UserInfo.objects.get(user__username=user)
             token, _ = Token.objects.get_or_create(user=user)
+            permission_dict = {
+                "viewer":False,
+                "editor":False,
+                "admin":False
+            }
+            default_permissions = {
+                "V":"viewer",
+                "A": "admin",
+                "M":"Manager"
+            }
+            permission_dict[default_permissions[user_details.permissions]] = True
             return Response(
-                data=TokenSerializer(token).data,
+                data=[{"username":user_details.user.username,
+                       "project": user_details.project,
+                       "premissions" : permission_dict,
+                      "Token": TokenSerializer(token).data}],
                 status=status.HTTP_200_OK,
             )
         else:
@@ -144,7 +160,8 @@ def user_info_with_shifts(request):
         'M': "MorningShift",
         'A': "AfternoonShift",
         "N": "NightShift",
-        "G": "GeneralShift"
+        "G": "GeneralShift",
+        "L": "Leave"
     }
 
     if request.method=='GET':
@@ -158,25 +175,25 @@ def user_info_with_shifts(request):
             p = Shift.objects.filter(user=request.user)
         except Exception as e:
             Response(status.HTTP_404_NOT_FOUND)
-        if request.method=="GET":
-            data = []
-            for i in p:
-                shift = {
-                    "Date": "",
-                    "MorningShift": False,
-                    "AfternoonShift": False,
-                    "NightShift": False,
-                    "GeneralShift": False
-                }
-                shift["Date"] =  i.date
-                shift[shifts_dict[i.shift]] = True
-                data.append(shift)
-                del shift
-            return  Response({
-                "user_info": serialiser.data,
-                "shifts":data})
-        else:
-            Response(status=status.HTTP_404_NOT_FOUND)
+
+        data = []
+        for i in p:
+            shift = {
+                "Date": "",
+                "MorningShift": False,
+                "AfternoonShift": False,
+                "NightShift": False,
+                "GeneralShift": False,
+                "Leave": False
+            }
+            shift["Date"] =  i.date
+            shift[shifts_dict[i.shift]] = True
+            data.append(shift)
+            del shift
+        return  Response({
+            "user_info": serialiser.data,
+            "shifts":data})
+
 
 
     elif request.method == "POST":
@@ -184,16 +201,19 @@ def user_info_with_shifts(request):
             temp_user = UserInfo.objects.get(user=request.user)
         except:
             return Response({'responce':'User need to get the access as Manager '})
-        print(temp_user.permissions)
+        # print(temp_user.permissions)
         try:
-            if temp_user.permissions=='M':
+            if temp_user.permissions=='V':
                 data = request.data
-                print(request.data)
+                # print(request.data)
                 list = []
                 responce = {}
                 for i in data:
                     try:
-                        UserInfo.objects.get(user__username=i['user'])
+                        user = UserInfo.objects.get(user__username=i['user'])
+                        if user.project!=temp_user.project:
+                            responce[i['user']] = "You can't change other project Peoples( "+i['user']+" )shifts."
+                            continue
                         y,m,d = str(i['date']).split('-')
                         if datetime.date.today() <= datetime.date(int(y),int(m),int(d)):
                             temp = Shift(user=i['user'], date=i['date'], shift=i['shift'])
@@ -216,12 +236,54 @@ def user_info_with_shifts(request):
             return Response(data={'Error':e },status=status.HTTP_400_BAD_REQUEST)
 
 
+@api_view(["GET"])
+@permission_classes([IsAuthenticated])
+def shifts_info_user(request,project_id,dd,mm,yyyy):
+    if request.method == "GET":
+        print(project_id,dd,mm,yyyy)
+        try:
+            a = UserInfo.objects.filter(project=project_id)
+        except:
+            return Response(data={'data':"Invalid project id"})
+        users = []
+        info={
+            "MorningShift" :[],
+            "AfternoonShift": [],
+            "NightShift" :[],
+            "GeneralShift" :[]
+        }
+        print(a)
+        for i in a:
+            users.append(i.user.username)
+        for j in users:
+            try:
+                d = datetime.date(int(yyyy),int(mm),int(dd))
+                b =Shift.objects.filter(user=j,date=d)
+                for k in b:
+                    print(k.user)
+                    print(k.shift)
+                    if(k.shift == "M"):
+                        info["MorningShift"].append(k.user)
+                    if (k.shift == "A"):
+                        info["AfternoonShift"].append(k.user)
+                    if (k.shift == "N"):
+                        info["NightShift"].append(k.user)
+                    if (k.shift == "G"):
+                        info["GeneralShift"].append(k.user)
+
+            except:
+                pass
+
+        # data = request.d
+        return Response(data=info,status=status.HTTP_200_OK)
 
 
-# class UserDetailAPIView(RetrieveUpdateDestroyAPIView):
-#     lookup_field = "key"
-#     serializer_class = UserDetailsSerializer
-#
-#     def get_queryset(self):
-#         return UserInfo.objects.filter(user=self.request.user)
+
+
+class UserDetailAPIView(RetrieveUpdateDestroyAPIView):
+    lookup_field = "key"
+    serializer_class = UserDetailsSerializer
+
+    def get_queryset(self):
+        return UserInfo.objects.filter(user=self.request.user)
 

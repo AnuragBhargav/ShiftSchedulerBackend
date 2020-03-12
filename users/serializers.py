@@ -8,6 +8,7 @@ from rest_framework.authtoken.models import Token
 from .models import UserInfo , Shift
 
 
+
 class UserRegistrationSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True)
     confirm_password = serializers.CharField(write_only=True)
