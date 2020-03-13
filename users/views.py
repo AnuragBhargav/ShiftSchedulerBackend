@@ -285,8 +285,55 @@ def shifts_info_user(request,project_id,dd,mm,yyyy):
         # data = request.d
         return Response(data=data,status=status.HTTP_200_OK)
 
+@api_view(["GET"])
+@permission_classes([IsAuthenticated])
+def user_shift(request,user_id,dd,mm,yyyy):
+    if request.method == "GET":
+        print(user_id,dd,mm,yyyy)
+        try:
+            a = UserInfo.objects.get(user__username=user_id)
+        except:
+            return Response(data={'data':"Invalid User"})
+
+        shifts_dict = {
+            'M': "MorningShift",
+            'A': "AfternoonShift",
+            "N": "NightShift",
+            "G": "GeneralShift",
+            "L": "Leave"
+        }
+
+        print(a.user.username)
+        d = datetime.date(int(yyyy),int(mm),int(dd))
+        b =Shift.objects.get(user=a.user.username,date=d)
+        data = {"currentShift":shifts_dict[b.shift]}
+        # data = request.d
+        return Response(data=data,status=status.HTTP_200_OK)
 
 
+
+@api_view(["GET"])
+@permission_classes([IsAuthenticated])
+def users_project_shift(request,project_id,shift_name,dd,mm,yyyy):
+    if request.method == "GET":
+        # print(user_id,dd,mm,yyyy)
+        try:
+            a = UserInfo.objects.filter(project=project_id)
+        except:
+            return Response(data={'data':"Invalid Project"})
+        persons = []
+        print(a)
+        for i in a:
+            try:
+                d = datetime.date(int(yyyy), int(mm), int(dd))
+                b = Shift.objects.get(user=i.user.username,shift=shift_name, date=d)
+                persons.append(b.user)
+                print(b.user)
+            except:
+                pass
+        data = {"persons": persons}
+        # data = request.d
+        return Response(data=data,status=status.HTTP_200_OK)
 
 class UserDetailAPIView(RetrieveUpdateDestroyAPIView):
     lookup_field = "key"
