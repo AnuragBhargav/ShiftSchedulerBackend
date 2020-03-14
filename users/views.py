@@ -7,6 +7,7 @@ from rest_framework.generics import RetrieveDestroyAPIView
 from .serializers import UserRegistrationSerializer, UserLoginSerializer, TokenSerializer ,UserDetailsSerializer , ShiftSerializer
 from .models import UserInfo , Shift
 import datetime
+from datetime import timedelta
 import json
 from django.contrib.auth.models import User
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
@@ -174,7 +175,7 @@ def user_info_with_shifts(request):
             return Response({'responce':'we didnt find the authorised user info'})
         serialiser = UserDetailsSerializer(query_set)
         try:
-            p = Shift.objects.filter(user=request.user)
+            p = Shift.objects.filter(user=request.user, date__gte=datetime.date.today(), date__lte=(datetime.date.today() +timedelta(days = 7)))
         except Exception as e:
             Response(status.HTTP_404_NOT_FOUND)
 
@@ -279,7 +280,8 @@ def shifts_info_user(request,project_id,dd,mm,yyyy):
             except:
                 pass
             data = {
-                "projectName" : project_id,
+                "projectId" : project_id,
+                "projectName": str(project_id).replace("_"," "),
                 'date': str(d),
                 "shifts": info
             }
