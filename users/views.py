@@ -54,10 +54,12 @@ class UserLoginAPIView(GenericAPIView):
             }
             permission_dict[default_permissions[user_details.permissions]] = True
             return Response(
-                data=[{"username":user_details.user.username,
+                data={"username":user_details.user.username,
+                        "name": user_details.full_name,
+                       "project_id": str(user_details.project).lower().replace(" ", "_"),
                        "project": user_details.project,
                        "premissions" : permission_dict,
-                      "Token": TokenSerializer(token).data}],
+                      "Token": TokenSerializer(token).data},
                 status=status.HTTP_200_OK,
             )
         else:

@@ -19,7 +19,7 @@ CHOICES = (
 
 class UserInfo(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, primary_key=True)
-    full_name = models.CharField(max_length=255, null=True, blank=True, default="")
+    full_name = models.CharField(max_length=255, null=True, blank=True, default="Name")
     designation  = models.CharField(max_length=255)
     project_id = models.CharField(max_length=255,default=None,blank=True,null=True)
     project = models.CharField(max_length=255, choices=CHOICES, default='bench', blank=True ,null=True)
@@ -32,9 +32,9 @@ class UserInfo(models.Model):
     img = models.ImageField(upload_to='empid', blank=True, null=True, default="/media/empid/image.png")
 
     def save(self, *args, **kwargs):
-        self.project_id=str(self.project).replace(" ","_").lower()
+        if self.project_id==None:
+            self.project_id = str(self.project).replace(" ", "_").lower()
         super(UserInfo, self).save(*args, **kwargs)
-
 
     def __str__(self):
         return self.user.username+":"+self.project
@@ -49,7 +49,6 @@ class Shift(models.Model):
         unique_together = ('user',"date","shift")
     def __str__(self):
         return self.user+":"+self.shift
-
 
 
 
