@@ -58,6 +58,8 @@ MIDDLEWARE = [
     'corsheaders.middleware.CorsPostCsrfMiddleware',
 ]
 
+
+
 TIME= 5*60
 SESSION_SERIALIZER = 'django.contrib.sessions.serializers.PickleSerializer'
 SESSION_EXPIRE_AT_BROWSER_CLOSE= True
@@ -158,12 +160,13 @@ NOSE_ARGS = [
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 CORS_ORIGIN_ALLOW_ALL=True
-CORS_ORIGIN_WHITELIST = [
-    "https://www.shift-schedulel-backend.herokuapp.com",
-    "http://localhost:8080",
-    "http://127.0.0.1:8000"
-]
-CORS_URLS_REGEX = r'^/api/.*$'
+
+# CORS_ORIGIN_WHITELIST = [
+#     "https://www.shift-schedulel-backend.herokuapp.com",
+#     "http://localhost:8080",
+#     "http://127.0.0.1:8000"
+# ]
+# CORS_URLS_REGEX = r'^/api/.*$'
 CORS_ALLOW_METHODS = [
     'DELETE',
     'GET',

@@ -44,20 +44,20 @@ class UserLoginAPIView(GenericAPIView):
             user_details = UserInfo.objects.get(user__username=user)
             token, _ = Token.objects.get_or_create(user=user)
             permission_dict = {
-                "viewer":False,
-                "editor":False,
-                "admin":False
+                "projectViewer":False,
+                "projectEdit":False,
+                "projectAdmin":False
             }
             default_permissions = {
-                "V":"viewer",
-                "A": "admin",
-                "M":"Manager"
+                "V":"projectViewer",
+                "A": "projectAdmin",
+                "M":"projectEdit"
             }
             permission_dict[default_permissions[user_details.permissions]] = True
             return Response(
                 data={"username":user_details.user.username,
                         "name": user_details.full_name,
-                       "project_id": str(user_details.project).lower().replace(" ", "_"),
+                       "projectId": str(user_details.project).lower().replace(" ", "_"),
                        "project": user_details.project,
                        "premissions" : permission_dict,
                       "Token": TokenSerializer(token).data},
