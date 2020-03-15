@@ -49,6 +49,7 @@ class UserLoginAPIView(GenericAPIView):
                 "projectAdmin":False
             }
 
+
             default_permissions = {
                 "V":"projectView",
                 "A": "projectAdmin",
