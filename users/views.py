@@ -41,35 +41,44 @@ class UserLoginAPIView(GenericAPIView):
         serializer = self.get_serializer(data=request.data)
         if serializer.is_valid():
             user = serializer.user
-            user_details = UserInfo.objects.get(user__username=user)
             token, _ = Token.objects.get_or_create(user=user)
-            permission_dict = {
-                "projectView":False,
-                "projectEdit":False,
-                "projectAdmin":False
-            }
+            try:
+                user_details = UserInfo.objects.get(user__username=user)
+
+                permission_dict = {
+                    "projectView":False,
+                    "projectEdit":False,
+                    "projectAdmin":False
+                }
 
 
-            default_permissions = {
-                "V":"projectView",
-                "A": "projectAdmin",
-                "M":"projectEdit"
-            }
-            permission_dict[default_permissions[user_details.permissions]] = True
-            return Response(
-                data={"username":user_details.user.username,
-                        "name": user_details.full_name,
-                       "projectId": str(user_details.project).lower().replace(" ", "_"),
-                       "project": user_details.project,
-                       "permissions" : permission_dict,
-                      "Token": TokenSerializer(token).data},
-                status=status.HTTP_200_OK,
-            )
+                default_permissions = {
+                    "V":"projectView",
+                    "A": "projectAdmin",
+                    "M":"projectEdit"
+                }
+                permission_dict[default_permissions[user_details.permissions]] = True
+                return Response(
+                    data={"username":user_details.user.username,
+                            "name": user_details.full_name,
+                           "projectId": str(user_details.project).lower().replace(" ", "_"),
+                           "project": user_details.project,
+                           "permissions" : permission_dict,
+                          "Token": TokenSerializer(token).data},
+                    status=status.HTTP_200_OK,
+                )
+            except:
+                return Response(
+                    data={
+                    "Token": TokenSerializer(token).data},
+                    status=status.HTTP_200_OK,
+                )
         else:
             return Response(
                 data=serializer.errors,
                 status=status.HTTP_400_BAD_REQUEST,
             )
+
 
 
 class UserTokenAPIView(RetrieveDestroyAPIView):
@@ -117,6 +126,7 @@ class UserTokenAPIView(RetrieveDestroyAPIView):
 
 class UserListCreateAPIView(ListCreateAPIView, RetrieveUpdateDestroyAPIView):
     serializer_class = UserDetailsSerializer
+    permission_classes = (IsAuthenticated,)
 
     def get_queryset(self):
         return UserInfo.objects.filter(user=self.request.user)
@@ -208,7 +218,7 @@ def user_info_with_shifts(request):
             return Response({'responce':'User need to get the access as Manager '})
         # print(temp_user.permissions)
         try:
-            if temp_user.permissions=='V':
+            if temp_user.permissions=='M':
                 data = request.data
                 # print(request.data)
                 list = []
@@ -269,15 +279,15 @@ def shifts_info_user(request,project_id,dd,mm,yyyy):
                     print(k.user)
                     print(k.shift)
                     if(k.shift == "M"):
-                        info["MorningShift"].append(k.user)
+                        info["MorningShift"].append(UserInfo.objects.get(user__username=k.user).full_name)
                     if (k.shift == "A"):
-                        info["AfternoonShift"].append(k.user)
+                        info["AfternoonShift"].append(UserInfo.objects.get(user__username=k.user).full_name)
                     if (k.shift == "N"):
-                        info["NightShift"].append(k.user)
+                        info["NightShift"].append(UserInfo.objects.get(user__username=k.user).full_name)
                     if (k.shift == "G"):
-                        info["GeneralShift"].append(k.user)
+                        info["GeneralShift"].append(UserInfo.objects.get(user__username=k.user).full_name)
                     if (k.shift == "L"):
-                        info["Leave"].append(k.user)
+                        info["Leave"].append(UserInfo.objects.get(user__username=k.user).full_name)
 
             except:
                 pass
