@@ -62,7 +62,7 @@ class UserLoginAPIView(GenericAPIView):
                     data={"username":user_details.user.username,
                             "name": user_details.full_name,
                            "projectId": str(user_details.project).lower().replace(" ", "_"),
-                           "project": user_details.project,
+                           "projectName": user_details.project,
                            "permissions" : permission_dict,
                           "Token": TokenSerializer(token).data},
                     status=status.HTTP_200_OK,
