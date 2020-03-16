@@ -293,9 +293,20 @@ def shifts_info_user(request,project_id,dd,mm,yyyy):
                 pass
             data = {
                 "projectId" : project_id,
-                "projectName": str(project_id).replace("_"," "),
-                'date': str(d),
-                "shifts": info
+                "shiftDetails": [
+                    {
+                        'date': str(d),
+                        "morningShift": info["MorningShift"],
+                        "afternoonShift": info["AfternoonShift"],
+                        "nightShift": info["NightShift"],
+                        "generalShift": info["GeneralShift"],
+                        "leave": info["Leave"]
+
+                    }
+                ]
+
+
+
             }
 
         # data = request.d
