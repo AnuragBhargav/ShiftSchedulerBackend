@@ -293,7 +293,7 @@ def shifts_info_user(request,project_id,dd,mm,yyyy):
                 pass
             data = {
                 "projectId" : project_id,
-                "shiftDetails": [
+                "shiftDetails":
                     {
                         'date': str(d),
                         "morningShift": info["MorningShift"],
@@ -303,7 +303,7 @@ def shifts_info_user(request,project_id,dd,mm,yyyy):
                         "leave": info["Leave"]
 
                     }
-                ]
+
 
 
 
