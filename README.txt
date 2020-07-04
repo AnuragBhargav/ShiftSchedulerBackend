@@ -3,7 +3,7 @@
 # Please follow the api calls as given below 
 
 # user registration:
-
+#
   url : http://127.0.0.1:8000/api/users/
   method: post
   body: username, email,password, confirm_password
@@ -282,4 +282,5 @@ responce:
 <br>
 
 
-#last
+#last1
+#last2
